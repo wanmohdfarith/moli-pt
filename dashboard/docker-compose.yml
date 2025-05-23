@@ -1,0 +1,26 @@
+version: '2'
+services:
+  influxdb:
+    image: influxdb:1.8
+    volumes:
+      - ./data:/var/lib/influxdb
+    ports:
+      - '8086:8086'
+    restart: unless-stopped
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=tetstts
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - 127.0.0.1:3000:3000
+    restart: unless-stopped
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
